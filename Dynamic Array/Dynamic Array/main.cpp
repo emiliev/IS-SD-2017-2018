@@ -10,21 +10,36 @@
 #include <ctime>
 #include <fstream>
 
+template <typename T>
+class DynamicArray{
+    private:
+        T* container = nullptr;
+    DynamicArray():container(nullptr){}
+
+};
+
 using namespace std;
 int main(int argc, const char * argv[]) {
     
     //TODO:- new file with random population!!!
     ifstream input("us_cities.txt");
-    ofstream coutput("cities.txt", ios::out | ios::app);
+    ofstream coutput("us_cities.txt",  ios::out );
     if(input && coutput){
         while (!input.eof()) {
             string text;
             input>>text;
+            cout<<text.length()<< " "<<text<< endl;
             int population = rand() % 100000;
-            coutput<<text<<" "<<population<<endl;
+
+            int length = (int) (text.length()) + 1;
+            coutput.write((char*) &length, sizeof(length));
+            coutput.write((char*) &text, length);
+            coutput.write((char*) &population, sizeof(population));
         }
     }
     
+    
+
 //    cout<<endl;
 //    for(int index = 0; index < argc; ++index){
 //        cout<<argv[index]<<endl;
